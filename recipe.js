@@ -38,7 +38,6 @@ let currentServingMultiplier = 1;
                                     <i class="${isBookmarked ? 'fa-solid text-danger' : 'fa-regular'} fa-heart me-1"></i>
                                     ${isBookmarked ? 'Saved' : 'Save Recipe'}
                                 </button>
-                                <button onclick="window.print()" class="btn btn-outline py-2 px-3"><i class="fa-solid fa-print me-1"></i> Print</button>
                             </div>
                         </div>
                     </div>

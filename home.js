@@ -49,7 +49,7 @@
 
                                 <div class="col-lg-5">
                                     <div class="p-3 bg-white rounded-4 border shadow-sm" style="transform: rotate(1.5deg);">
-                                        <img src="/images/tart.jpg" alt="Botanical Tartlet" class="img-fluid rounded-3 mb-3" style="height: 260px; width: 100%; object-fit: cover;">
+                                        <img src="./images/tart.jpg" alt="Botanical Tartlet" class="img-fluid rounded-3 mb-3" style="height: 260px; width: 100%; object-fit: cover;">
                                         <span class="badge badge-sage text-uppercase mb-1">Featured Creation</span>
                                         <h4 class="font-serif fw-bold mb-2">Lavender & Wild Honey Tartlets</h4>
                                         <div class="d-flex justify-content-between align-items-center pt-2 border-top small text-secondary">

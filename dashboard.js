@@ -70,7 +70,6 @@ function renderDashboardPage() {
             `;
         }
 
-        // Delete Confirmation Modal Invoker
         let idToDelete = null;
         function openDeleteModal(recipeId) {
             idToDelete = recipeId;

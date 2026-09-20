@@ -169,7 +169,6 @@ let formIngredients = [];
             `;
         }
 
-        // Form Dynamic Input Row Manipulators
         function addIngredientRow() {
             formIngredients.push({ quantity: 1, unit: 'cup', name: '' });
             renderApp();

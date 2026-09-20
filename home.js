@@ -124,7 +124,6 @@
             `;
         }
 
-        // Recipe Card Markup Renderer
         function renderRecipeCard(recipe) {
             const isBookmarked = appState.savedRecipeIds.has(recipe.id);
             return `

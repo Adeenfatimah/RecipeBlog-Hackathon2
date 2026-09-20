@@ -1,19 +1,18 @@
-// Home View Generator Function
-        function renderHomePage() {
-            const filteredRecipes = appState.recipes.filter(recipe => {
-                const matchesSearch = recipe.title.toLowerCase().includes(appState.searchQuery.toLowerCase()) ||
-                                      recipe.description.toLowerCase().includes(appState.searchQuery.toLowerCase());
-                const matchesCategory = appState.selectedCategory === 'All' || recipe.category === appState.selectedCategory;
-                let matchesFridge = true;
-                if (appState.fridgeIngredients.length > 0) {
-                    matchesFridge = recipe.ingredients.some(ing => 
-                        appState.fridgeIngredients.some(fItem => ing.name.toLowerCase().includes(fItem.toLowerCase()))
-                    );
-                }
-                return matchesSearch && matchesCategory && matchesFridge;
-            });
+function renderHomePage() {
+    const filteredRecipes = appState.recipes.filter(recipe => {
+        const matchesSearch = recipe.title.toLowerCase().includes(appState.searchQuery.toLowerCase()) ||
+            recipe.description.toLowerCase().includes(appState.searchQuery.toLowerCase());
+        const matchesCategory = appState.selectedCategory === 'All' || recipe.category === appState.selectedCategory;
+        let matchesFridge = true;
+        if (appState.fridgeIngredients.length > 0) {
+            matchesFridge = recipe.ingredients.some(ing =>
+                appState.fridgeIngredients.some(fItem => ing.name.toLowerCase().includes(fItem.toLowerCase()))
+            );
+        }
+        return matchesSearch && matchesCategory && matchesFridge;
+    });
 
-            return `
+    return `
                 <div>
                     <!-- Hero Banner -->
                     <section class="py-5" style="background: linear-gradient(180deg, rgba(226, 213, 231, 0.3) 0%, var(--cream) 100%);">
@@ -122,11 +121,11 @@
                     </section>
                 </div>
             `;
-        }
+}
 
-        function renderRecipeCard(recipe) {
-            const isBookmarked = appState.savedRecipeIds.has(recipe.id);
-            return `
+function renderRecipeCard(recipe) {
+    const isBookmarked = appState.savedRecipeIds.has(recipe.id);
+    return `
                 <div onclick="navigateTo('single-recipe', {recipeId: '${recipe.id}'})" class="recipe-card">
                     <div>
                         <div class="card-img-wrapper">
@@ -152,51 +151,51 @@
                     </div>
                 </div>
             `;
-        }
+}
 
-        // Filtering and Search Action Handlers
-        function scrollToRecipes() {
-            const el = document.getElementById('recipe-section');
-            if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }
+// Filtering and Search Action Handlers
+function scrollToRecipes() {
+    const el = document.getElementById('recipe-section');
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+}
 
-        function setCategory(cat) {
-            appState.selectedCategory = cat;
-            renderApp();
-        }
+function setCategory(cat) {
+    appState.selectedCategory = cat;
+    renderApp();
+}
 
-        function handleSearchInput(val) {
-            appState.searchQuery = val;
-            renderApp();
-            const searchEl = document.getElementById('home-search-input');
-            if (searchEl) {
-                searchEl.focus();
-                searchEl.setSelectionRange(val.length, val.length);
-            }
-        }
+function handleSearchInput(val) {
+    appState.searchQuery = val;
+    renderApp();
+    const searchEl = document.getElementById('home-search-input');
+    if (searchEl) {
+        searchEl.focus();
+        searchEl.setSelectionRange(val.length, val.length);
+    }
+}
 
-        // Pantry Ingredient Item Controls
-        function addFridgeIngredient() {
-            const input = document.getElementById('fridge-input');
-            if (input && input.value.trim() !== '') {
-                appState.fridgeIngredients.push(input.value.trim());
-                renderApp();
-            }
-        }
+// Pantry Ingredient Item Controls
+function addFridgeIngredient() {
+    const input = document.getElementById('fridge-input');
+    if (input && input.value.trim() !== '') {
+        appState.fridgeIngredients.push(input.value.trim());
+        renderApp();
+    }
+}
 
-        function removeFridgeIngredient(index) {
-            appState.fridgeIngredients.splice(index, 1);
-            renderApp();
-        }
+function removeFridgeIngredient(index) {
+    appState.fridgeIngredients.splice(index, 1);
+    renderApp();
+}
 
-        function clearFridgeFilter() {
-            appState.fridgeIngredients = [];
-            renderApp();
-        }
+function clearFridgeFilter() {
+    appState.fridgeIngredients = [];
+    renderApp();
+}
 
-        function resetFilters() {
-            appState.searchQuery = '';
-            appState.selectedCategory = 'All';
-            appState.fridgeIngredients = [];
-            renderApp();
-        }
+function resetFilters() {
+    appState.searchQuery = '';
+    appState.selectedCategory = 'All';
+    appState.fridgeIngredients = [];
+    renderApp();
+}

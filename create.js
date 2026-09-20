@@ -1,31 +1,31 @@
 let formIngredients = [];
-        let formSteps = [];
+let formSteps = [];
 
-        function renderCreateEditPostPage(isEdit = false) {
-            if (!appState.currentUser) {
-                showToast('Please log in to share or edit recipes!', 'fa-lock');
-                navigateTo('login');
-                return '';
-            }
+function renderCreateEditPostPage(isEdit = false) {
+    if (!appState.currentUser) {
+        showToast('Please log in to share or edit recipes!', 'fa-lock');
+        navigateTo('login');
+        return '';
+    }
 
-            let recipe = {
-                title: '', category: 'Breakfast', cuisine: 'Italian', prepTime: '15 min', cookTime: '20 min',
-                servings: 4, difficulty: 'Easy', excerpt: '', description: '', coverImage: ''
-            };
+    let recipe = {
+        title: '', category: 'Breakfast', cuisine: 'Italian', prepTime: '15 min', cookTime: '20 min',
+        servings: 4, difficulty: 'Easy', excerpt: '', description: '', coverImage: ''
+    };
 
-            if (isEdit && appState.editingRecipeId) {
-                const found = appState.recipes.find(r => r.id === appState.editingRecipeId);
-                if (found) {
-                    recipe = { ...found };
-                    formIngredients = [...found.ingredients];
-                    formSteps = [...found.steps];
-                }
-            } else if (!isEdit) {
-                if (formIngredients.length === 0) formIngredients = [{ quantity: 1, unit: 'cup', name: 'Fresh Ingredient' }];
-                if (formSteps.length === 0) formSteps = [{ instruction: 'Mix ingredients together gently.', timer: 5 }];
-            }
+    if (isEdit && appState.editingRecipeId) {
+        const found = appState.recipes.find(r => r.id === appState.editingRecipeId);
+        if (found) {
+            recipe = { ...found };
+            formIngredients = [...found.ingredients];
+            formSteps = [...found.steps];
+        }
+    } else if (!isEdit) {
+        if (formIngredients.length === 0) formIngredients = [{ quantity: 1, unit: 'cup', name: 'Fresh Ingredient' }];
+        if (formSteps.length === 0) formSteps = [{ instruction: 'Mix ingredients together gently.', timer: 5 }];
+    }
 
-            return `
+    return `
                 <div class="container py-4" style="max-width: 800px;">
                     <div class="mb-4">
                         <span class="font-whimsy fs-2" style="color: var(--sage);">${isEdit ? 'Refine Creation' : 'Kitchen Journal'}</span>
@@ -148,7 +148,7 @@ let formIngredients = [];
                             ${formSteps.map((step, i) => `
                                 <div class="bg-light p-3 rounded-3 mb-2">
                                     <div class="d-flex justify-content-between align-items-center mb-2">
-                                        <span class="fw-bold small text-success">${i+1}. Step Details</span>
+                                        <span class="fw-bold small text-success">${i + 1}. Step Details</span>
                                         <button type="button" onclick="removeStepRow(${i})" class="btn btn-link text-danger p-0"><i class="fa-solid fa-trash"></i></button>
                                     </div>
                                     <textarea rows="2" placeholder="Step instruction..." onchange="formSteps[${i}].instruction=this.value" class="form-control mb-2">${step.instruction}</textarea>
@@ -167,70 +167,70 @@ let formIngredients = [];
                     </form>
                 </div>
             `;
+}
+
+function addIngredientRow() {
+    formIngredients.push({ quantity: 1, unit: 'cup', name: '' });
+    renderApp();
+}
+
+function removeIngredientRow(index) {
+    formIngredients.splice(index, 1);
+    renderApp();
+}
+
+function addStepRow() {
+    formSteps.push({ instruction: '', timer: 0 });
+    renderApp();
+}
+
+function removeStepRow(index) {
+    formSteps.splice(index, 1);
+    renderApp();
+}
+
+// Recipe Creation / Update Form Handler
+function handleFormSubmit(e, isEdit) {
+    e.preventDefault();
+    const title = document.getElementById('recipe-title').value;
+    const category = document.getElementById('recipe-category').value;
+    const cuisine = document.getElementById('recipe-cuisine').value;
+    const prepTime = document.getElementById('recipe-prep').value || '15 min';
+    const cookTime = document.getElementById('recipe-cook').value || '20 min';
+    const servings = parseInt(document.getElementById('recipe-servings').value) || 4;
+    const difficulty = document.getElementById('recipe-difficulty').value;
+    const excerpt = document.getElementById('recipe-excerpt').value;
+    const description = document.getElementById('recipe-desc').value;
+    const coverImage = document.getElementById('recipe-image').value || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=800&q=80';
+
+    if (isEdit) {
+        const idx = appState.recipes.findIndex(r => r.id === appState.editingRecipeId);
+        if (idx !== -1) {
+            appState.recipes[idx] = {
+                ...appState.recipes[idx],
+                title, category, cuisine, prepTime, cookTime, servings, difficulty, excerpt, description, coverImage,
+                ingredients: formIngredients, steps: formSteps
+            };
         }
+        showToast('Recipe updated successfully!');
+    } else {
+        const newRecipe = {
+            id: 'recipe-' + Date.now(),
+            title, category, cuisine, prepTime, cookTime, servings, difficulty, excerpt, description, coverImage,
+            author: appState.currentUser.name,
+            date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+            isUserPost: true,
+            ingredients: formIngredients,
+            steps: formSteps
+        };
+        appState.recipes.unshift(newRecipe);
+        showToast('New story published to Whimsy!');
+    }
 
-        function addIngredientRow() {
-            formIngredients.push({ quantity: 1, unit: 'cup', name: '' });
-            renderApp();
-        }
-
-        function removeIngredientRow(index) {
-            formIngredients.splice(index, 1);
-            renderApp();
-        }
-
-        function addStepRow() {
-            formSteps.push({ instruction: '', timer: 0 });
-            renderApp();
-        }
-
-        function removeStepRow(index) {
-            formSteps.splice(index, 1);
-            renderApp();
-        }
-
-        // Recipe Creation / Update Form Handler
-        function handleFormSubmit(e, isEdit) {
-            e.preventDefault();
-            const title = document.getElementById('recipe-title').value;
-            const category = document.getElementById('recipe-category').value;
-            const cuisine = document.getElementById('recipe-cuisine').value;
-            const prepTime = document.getElementById('recipe-prep').value || '15 min';
-            const cookTime = document.getElementById('recipe-cook').value || '20 min';
-            const servings = parseInt(document.getElementById('recipe-servings').value) || 4;
-            const difficulty = document.getElementById('recipe-difficulty').value;
-            const excerpt = document.getElementById('recipe-excerpt').value;
-            const description = document.getElementById('recipe-desc').value;
-            const coverImage = document.getElementById('recipe-image').value || 'https://images.unsplash.com/photo-1495521821757-a1efb6729352?auto=format&fit=crop&w=800&q=80';
-
-            if (isEdit) {
-                const idx = appState.recipes.findIndex(r => r.id === appState.editingRecipeId);
-                if (idx !== -1) {
-                    appState.recipes[idx] = {
-                        ...appState.recipes[idx],
-                        title, category, cuisine, prepTime, cookTime, servings, difficulty, excerpt, description, coverImage,
-                        ingredients: formIngredients, steps: formSteps
-                    };
-                }
-                showToast('Recipe updated successfully!');
-            } else {
-                const newRecipe = {
-                    id: 'recipe-' + Date.now(),
-                    title, category, cuisine, prepTime, cookTime, servings, difficulty, excerpt, description, coverImage,
-                    author: appState.currentUser.name,
-                    date: new Date().toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-                    isUserPost: true,
-                    ingredients: formIngredients,
-                    steps: formSteps
-                };
-                appState.recipes.unshift(newRecipe);
-                showToast('New story published to Whimsy!');
-            }
-
-            saveRecipesToStorage();
-            formIngredients = [];
-            formSteps = [];
-            navigateTo('dashboard');
-        }
+    saveRecipesToStorage();
+    formIngredients = [];
+    formSteps = [];
+    navigateTo('dashboard');
+}
 
 

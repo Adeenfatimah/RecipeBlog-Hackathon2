@@ -1,13 +1,13 @@
 function renderDashboardPage() {
-            if (!appState.currentUser) {
-                showToast('Please log in to access dashboard!', 'fa-lock');
-                navigateTo('login');
-                return '';
-            }
+    if (!appState.currentUser) {
+        showToast('Please log in to access dashboard!', 'fa-lock');
+        navigateTo('login');
+        return '';
+    }
 
-            const myRecipes = appState.recipes.filter(r => r.isUserPost || r.author === appState.currentUser.name);
+    const myRecipes = appState.recipes.filter(r => r.isUserPost || r.author === appState.currentUser.name);
 
-            return `
+    return `
                 <div class="container py-4">
                     <!-- User Profile Header Summary -->
                     <div class="bg-white p-4 rounded-4 border shadow-sm d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
@@ -68,22 +68,22 @@ function renderDashboardPage() {
                     `}
                 </div>
             `;
-        }
+}
 
-        let idToDelete = null;
-        function openDeleteModal(recipeId) {
-            idToDelete = recipeId;
-            const modalEl = document.getElementById('deleteModal');
-            const bsModal = new bootstrap.Modal(modalEl);
-            bsModal.show();
+let idToDelete = null;
+function openDeleteModal(recipeId) {
+    idToDelete = recipeId;
+    const modalEl = document.getElementById('deleteModal');
+    const bsModal = new bootstrap.Modal(modalEl);
+    bsModal.show();
 
-            document.getElementById('confirm-delete-btn').onclick = function() {
-                if (idToDelete) {
-                    appState.recipes = appState.recipes.filter(r => r.id !== idToDelete);
-                    saveRecipesToStorage();
-                    bsModal.hide();
-                    showToast('Recipe deleted.');
-                    renderApp();
-                }
-            };
+    document.getElementById('confirm-delete-btn').onclick = function () {
+        if (idToDelete) {
+            appState.recipes = appState.recipes.filter(r => r.id !== idToDelete);
+            saveRecipesToStorage();
+            bsModal.hide();
+            showToast('Recipe deleted.');
+            renderApp();
         }
+    };
+}

@@ -1,10 +1,10 @@
 let currentServingMultiplier = 1;
 
-        function renderSingleRecipePage() {
-            const recipe = appState.recipes.find(r => r.id === appState.activeRecipeId) || appState.recipes[0];
-            const isBookmarked = appState.savedRecipeIds.has(recipe.id);
+function renderSingleRecipePage() {
+    const recipe = appState.recipes.find(r => r.id === appState.activeRecipeId) || appState.recipes[0];
+    const isBookmarked = appState.savedRecipeIds.has(recipe.id);
 
-            return `
+    return `
                 <div class="container py-4">
                     <!-- Breadcrumb Navigation -->
                     <nav class="small mb-3">
@@ -113,8 +113,8 @@ let currentServingMultiplier = 1;
 
                                 <ul class="list-unstyled d-flex flex-column gap-3 mb-0">
                                     ${recipe.ingredients.map((ing, idx) => {
-                                        const scaledQty = ing.quantity ? (ing.quantity * currentServingMultiplier).toFixed(1).replace(/\.0$/, '') : '';
-                                        return `
+        const scaledQty = ing.quantity ? (ing.quantity * currentServingMultiplier).toFixed(1).replace(/\.0$/, '') : '';
+        return `
                                             <li class="d-flex align-items-start gap-2 small">
                                                 <input type="checkbox" id="ing-${idx}" class="form-check-input mt-1">
                                                 <label for="ing-${idx}" class="form-check-label">
@@ -122,7 +122,7 @@ let currentServingMultiplier = 1;
                                                 </label>
                                             </li>
                                         `;
-                                    }).join('')}
+    }).join('')}
                                 </ul>
                             </div>
                         </div>
@@ -153,58 +153,58 @@ let currentServingMultiplier = 1;
                     </div>
                 </div>
             `;
-        }
+}
 
-        // Ingredient Serving Multiplier Adjuster
-        function adjustMultiplier(delta) {
-            currentServingMultiplier = Math.max(0.5, currentServingMultiplier + delta);
-            renderApp();
-        }
+// Ingredient Serving Multiplier Adjuster
+function adjustMultiplier(delta) {
+    currentServingMultiplier = Math.max(0.5, currentServingMultiplier + delta);
+    renderApp();
+}
 
-        // Cuisine Navigation Trigger
-        function filterByCuisine(cuisineName) {
-            appState.selectedCuisineFilter = cuisineName;
-            appState.searchQuery = '';
-            appState.selectedCategory = 'All';
-            navigateTo('explore');
-        }
+// Cuisine Navigation Trigger
+function filterByCuisine(cuisineName) {
+    appState.selectedCuisineFilter = cuisineName;
+    appState.searchQuery = '';
+    appState.selectedCategory = 'All';
+    navigateTo('explore');
+}
 
-        // Cook Mode Fullscreen Overlay Controls & Logic
-        function startCookMode(recipeId) {
-            const recipe = appState.recipes.find(r => r.id === recipeId);
-            if (!recipe) return;
+// Cook Mode Fullscreen Overlay Controls & Logic
+function startCookMode(recipeId) {
+    const recipe = appState.recipes.find(r => r.id === recipeId);
+    if (!recipe) return;
 
-            appState.cookState = {
-                recipe: recipe,
-                currentStepIndex: 0,
-                timerSeconds: (recipe.steps[0].timer || 0) * 60,
-                timerInitial: (recipe.steps[0].timer || 0) * 60,
-                timerInterval: null,
-                isTimerRunning: false
-            };
+    appState.cookState = {
+        recipe: recipe,
+        currentStepIndex: 0,
+        timerSeconds: (recipe.steps[0].timer || 0) * 60,
+        timerInitial: (recipe.steps[0].timer || 0) * 60,
+        timerInterval: null,
+        isTimerRunning: false
+    };
 
-            const overlay = document.getElementById('cook-mode-overlay');
-            overlay.classList.add('active');
-            renderCookMode();
-        }
+    const overlay = document.getElementById('cook-mode-overlay');
+    overlay.classList.add('active');
+    renderCookMode();
+}
 
-        function closeCookMode() {
-            clearInterval(appState.cookState.timerInterval);
-            document.getElementById('cook-mode-overlay').classList.remove('active');
-        }
+function closeCookMode() {
+    clearInterval(appState.cookState.timerInterval);
+    document.getElementById('cook-mode-overlay').classList.remove('active');
+}
 
-        function renderCookMode() {
-            const overlay = document.getElementById('cook-mode-overlay');
-            const { recipe, currentStepIndex, timerSeconds, isTimerRunning } = appState.cookState;
-            const step = recipe.steps[currentStepIndex];
-            const totalSteps = recipe.steps.length;
-            const progressPercent = Math.round(((currentStepIndex + 1) / totalSteps) * 100);
+function renderCookMode() {
+    const overlay = document.getElementById('cook-mode-overlay');
+    const { recipe, currentStepIndex, timerSeconds, isTimerRunning } = appState.cookState;
+    const step = recipe.steps[currentStepIndex];
+    const totalSteps = recipe.steps.length;
+    const progressPercent = Math.round(((currentStepIndex + 1) / totalSteps) * 100);
 
-            const mins = Math.floor(timerSeconds / 60);
-            const secs = timerSeconds % 60;
-            const formattedTime = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    const mins = Math.floor(timerSeconds / 60);
+    const secs = timerSeconds % 60;
+    const formattedTime = `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
 
-            overlay.innerHTML = `
+    overlay.innerHTML = `
                 <div class="container my-auto" style="max-width: 760px;">
                     <div class="d-flex align-items-center justify-content-between pb-3 border-bottom mb-3">
                         <span class="small fw-bold text-success"><i class="fa-solid fa-circle me-1"></i> Cook Mode Active</span>
@@ -250,62 +250,62 @@ let currentServingMultiplier = 1;
                     </div>
                 </div>
             `;
-        }
+}
 
-        // Cook Mode Timer Management Functions
-        function toggleTimer() {
-            const cState = appState.cookState;
-            if (cState.isTimerRunning) {
+// Cook Mode Timer Management Functions
+function toggleTimer() {
+    const cState = appState.cookState;
+    if (cState.isTimerRunning) {
+        clearInterval(cState.timerInterval);
+        cState.isTimerRunning = false;
+    } else {
+        cState.isTimerRunning = true;
+        cState.timerInterval = setInterval(() => {
+            if (cState.timerSeconds > 0) {
+                cState.timerSeconds--;
+                renderCookMode();
+            } else {
                 clearInterval(cState.timerInterval);
                 cState.isTimerRunning = false;
-            } else {
-                cState.isTimerRunning = true;
-                cState.timerInterval = setInterval(() => {
-                    if (cState.timerSeconds > 0) {
-                        cState.timerSeconds--;
-                        renderCookMode();
-                    } else {
-                        clearInterval(cState.timerInterval);
-                        cState.isTimerRunning = false;
-                        showToast('Timer Complete!', 'fa-bell');
-                        renderCookMode();
-                    }
-                }, 1000);
-            }
-            renderCookMode();
-        }
-
-        function resetTimer() {
-            clearInterval(appState.cookState.timerInterval);
-            appState.cookState.isTimerRunning = false;
-            appState.cookState.timerSeconds = appState.cookState.timerInitial;
-            renderCookMode();
-        }
-
-        function nextStep() {
-            clearInterval(appState.cookState.timerInterval);
-            appState.cookState.isTimerRunning = false;
-            appState.cookState.currentStepIndex++;
-            const step = appState.cookState.recipe.steps[appState.cookState.currentStepIndex];
-            appState.cookState.timerSeconds = (step.timer || 0) * 60;
-            appState.cookState.timerInitial = (step.timer || 0) * 60;
-            renderCookMode();
-        }
-
-        function prevStep() {
-            if (appState.cookState.currentStepIndex > 0) {
-                clearInterval(appState.cookState.timerInterval);
-                appState.cookState.isTimerRunning = false;
-                appState.cookState.currentStepIndex--;
-                const step = appState.cookState.recipe.steps[appState.cookState.currentStepIndex];
-                appState.cookState.timerSeconds = (step.timer || 0) * 60;
-                appState.cookState.timerInitial = (step.timer || 0) * 60;
+                showToast('Timer Complete!', 'fa-bell');
                 renderCookMode();
             }
-        }
+        }, 1000);
+    }
+    renderCookMode();
+}
 
-        function finishCooking() {
-            closeCookMode();
-            confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-            showToast('Congratulations! Recipe completed delightfully! 🎉');
-        }
+function resetTimer() {
+    clearInterval(appState.cookState.timerInterval);
+    appState.cookState.isTimerRunning = false;
+    appState.cookState.timerSeconds = appState.cookState.timerInitial;
+    renderCookMode();
+}
+
+function nextStep() {
+    clearInterval(appState.cookState.timerInterval);
+    appState.cookState.isTimerRunning = false;
+    appState.cookState.currentStepIndex++;
+    const step = appState.cookState.recipe.steps[appState.cookState.currentStepIndex];
+    appState.cookState.timerSeconds = (step.timer || 0) * 60;
+    appState.cookState.timerInitial = (step.timer || 0) * 60;
+    renderCookMode();
+}
+
+function prevStep() {
+    if (appState.cookState.currentStepIndex > 0) {
+        clearInterval(appState.cookState.timerInterval);
+        appState.cookState.isTimerRunning = false;
+        appState.cookState.currentStepIndex--;
+        const step = appState.cookState.recipe.steps[appState.cookState.currentStepIndex];
+        appState.cookState.timerSeconds = (step.timer || 0) * 60;
+        appState.cookState.timerInitial = (step.timer || 0) * 60;
+        renderCookMode();
+    }
+}
+
+function finishCooking() {
+    closeCookMode();
+    confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
+    showToast('Congratulations! Recipe completed delightfully! 🎉');
+}

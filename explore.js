@@ -1,9 +1,9 @@
 function renderExplorePage() {
-            const cuisines = ['Italian', 'Pakistani', 'French', 'Middle Eastern', 'Asian', 'Mexican'];
-            const activeCuisine = appState.selectedCuisineFilter;
-            const filtered = activeCuisine === 'All' ? appState.recipes : appState.recipes.filter(r => r.cuisine.toLowerCase() === activeCuisine.toLowerCase());
+    const cuisines = ['Italian', 'Pakistani', 'French', 'Middle Eastern', 'Asian', 'Mexican'];
+    const activeCuisine = appState.selectedCuisineFilter;
+    const filtered = activeCuisine === 'All' ? appState.recipes : appState.recipes.filter(r => r.cuisine.toLowerCase() === activeCuisine.toLowerCase());
 
-            return `
+    return `
                 <div class="container py-4">
                     <div class="text-center mb-4">
                         <span class="font-whimsy fs-2" style="color: var(--sage);">Flavors of the World</span>
@@ -30,28 +30,28 @@ function renderExplorePage() {
                     </div>
                 </div>
             `;
-        }
+}
 
-        // Core App Render Dispatcher
-        function renderApp() {
-            renderNavbarAuth();
-            const container = document.getElementById('app-content');
+// Core App Render Dispatcher
+function renderApp() {
+    renderNavbarAuth();
+    const container = document.getElementById('app-content');
 
-            switch (appState.currentView) {
-                case 'home': container.innerHTML = renderHomePage(); break;
-                case 'single-recipe': container.innerHTML = renderSingleRecipePage(); break;
-                case 'login': container.innerHTML = renderLoginPage(); break;
-                case 'signup': container.innerHTML = renderSignupPage(); break;
-                case 'create': container.innerHTML = renderCreateEditPostPage(false); break;
-                case 'edit': container.innerHTML = renderCreateEditPostPage(true); break;
-                case 'dashboard': container.innerHTML = renderDashboardPage(); break;
-                case 'explore': container.innerHTML = renderExplorePage(); break;
-                default: container.innerHTML = renderHomePage();
-            }
-        }
+    switch (appState.currentView) {
+        case 'home': container.innerHTML = renderHomePage(); break;
+        case 'single-recipe': container.innerHTML = renderSingleRecipePage(); break;
+        case 'login': container.innerHTML = renderLoginPage(); break;
+        case 'signup': container.innerHTML = renderSignupPage(); break;
+        case 'create': container.innerHTML = renderCreateEditPostPage(false); break;
+        case 'edit': container.innerHTML = renderCreateEditPostPage(true); break;
+        case 'dashboard': container.innerHTML = renderDashboardPage(); break;
+        case 'explore': container.innerHTML = renderExplorePage(); break;
+        default: container.innerHTML = renderHomePage();
+    }
+}
 
-        // Application Initialization Event
-        window.onload = function() {
-            initStorage();
-            renderApp();
-        };
+// Application Initialization Event
+window.onload = function () {
+    initStorage();
+    renderApp();
+};

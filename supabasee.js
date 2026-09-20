@@ -1,42 +1,59 @@
-const { createClient } = window.supabase;
-
 const supabaseUrl = "https://lbonxqgfhcqyxsrnnkpl.supabase.co";
-
 const supabaseKey = "sb_publishable_eCFhEEDQsh3lco5S5NhTcQ_uh_yehfI";
 
-const supabase = createClient(supabaseUrl, supabaseKey);
+const { createClient } = supabase;
+
+const client = createClient(supabaseUrl, supabaseKey)
+
+console.log(client);
+
+
+const logoutBtn = document.getElementById("logoutBtn");
+
+logoutBtn.addEventListener("click", async () => {
+
+  const { error } = await supabase.auth.signOut();
+
+
+  if (error) {
+
+    alert(error.message);
+
+    return;
+  }
+
+
+  appState.currentUser = null;
+    saveUserToStorage();
+    showToast('Logged out safely.');
+    navigateTo('home');
+})
+
+
 
 const loginForm = document.getElementById("loginForm");
-
 if (loginForm) {
 
     loginForm.addEventListener("submit", async (e) => {
-
         e.preventDefault();
-
-        // Get email and password
+    
         const email =
             document.getElementById("email").value.trim();
 
         const password =
             document.getElementById("password").value;
 
-
         const { data, error } =
             await supabase.auth.signInWithPassword({
-
                 email: email,
                 password: password
 
             });
 
         if (error) {
-
             alert(error.message);
-
             return;
         }
-
 
         alert("Login successful!");
         window.location.href = "./index.html";
@@ -91,41 +108,30 @@ if (signupForm) {
             alert(error.message);
             return;
         }
-
         alert(
             "Account created successfully! Check your email if confirmation is required."
         );
-
         naviateTo(loginForm);
 
     });
 
 }
 
-
-// ==========================================
-// 4. RECIPE FORM
-// ==========================================
-
 const recipeForm =
     document.getElementById("recipeForm");
-
 
 if (recipeForm) {
 
     recipeForm.addEventListener("submit", async (e) => {
         e.preventDefault();
-
         const {
             data: { user },
             error: userError
         } = await supabase.auth.getUser();
-
         if (userError) {
             alert(userError.message);
             return;
         }
-
         if (!user) {
             alert("Please login first!");
             return;
@@ -149,12 +155,10 @@ if (recipeForm) {
                 .getElementById("recipeImage")
                 .files[0];
 
-
         if (!imageFile) {
             alert("Please select a recipe image!");
             return;
         }
-
 
         const extension =
             imageFile.name
@@ -207,21 +211,13 @@ if (recipeForm) {
         } = await supabase
             .from("recipes")
             .insert({
-
                 title: title,
-
                 category: category,
-
                 description: description,
-
                 image_url: imageUrl,
-
                 user_id: user.id
-
             })
-
             .select()
-
             .single();
 
         if (error) {
@@ -232,15 +228,11 @@ if (recipeForm) {
             return;
         }
 
-
         alert(
             "Recipe and image saved successfully!"
         );
-
         console.log("Saved recipe:", data);
-
         recipeForm.reset();
-
     });
 
 }

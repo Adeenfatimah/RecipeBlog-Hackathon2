@@ -1,0 +1,256 @@
+:root {
+  --bs-body-bg: #faf6f0;
+  --bs-body-color: #3b2338;
+  --cream: #faf6f0;
+  --cream-card: #ffffff;
+  --cream-beige: #f2eadf;
+  --plum: #3b2338;
+  --plum-dark: #2a1727;
+  --plum-light: #583754;
+  --sage: #6c8e7b;
+  --sage-dark: #526e5f;
+  --sage-light: #e2ebe5;
+  --lavender: #e2d5e7;
+  --gold: #e5a93c;
+  --gold-light: #fdf3e3;
+  --red: #e53e3e;
+  --red-light: #fed7d7;
+
+  --font-sans: "Plus Jakarta Sans", sans-serif;
+  --font-serif: "Playfair Display", serif;
+  --font-whimsy: "Sacramento", cursive;
+}
+
+/* Global Typography & Body Setup */
+body {
+  font-family: var(--font-sans);
+  background-color: var(--cream);
+  color: var(--plum);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.font-serif {
+  font-family: var(--font-serif);
+}
+.font-whimsy {
+  font-family: var(--font-whimsy);
+}
+
+/* Custom Whimsy Buttons */
+.btn-primary {
+  background-color: var(--plum-light);
+  color: #ffffff;
+  border-radius: 12px;
+  font-weight: 600;
+  border: none;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.2s ease;
+}
+.btn-primary:hover {
+  background-color: var(--sage-dark);
+  color: #ffffff;
+  transform: translateY(-1px);
+}
+
+.btn-outline {
+  background-color: var(--cream-card);
+  border: 1px solid var(--cream-beige);
+  color: var(--plum);
+  border-radius: 12px;
+  font-weight: 600;
+  padding: 0.6rem 1.4rem;
+  transition: all 0.2s ease;
+}
+.btn-outline:hover {
+  background-color: var(--cream-beige);
+  color: var(--plum-dark);
+}
+
+.btn-gold {
+  background-color: var(--gold);
+  color: var(--plum-dark);
+  font-weight: 700;
+  border-radius: 12px;
+  border: none;
+  padding: 0.6rem 1.4rem;
+}
+.btn-gold:hover {
+  background-color: #d8992f;
+  color: var(--plum-dark);
+}
+
+/* Badge Tokens */
+.badge-sage {
+  background-color: var(--sage-light);
+  color: var(--sage-dark);
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50rem;
+}
+.badge-lavender {
+  background-color: var(--lavender);
+  color: var(--plum-dark);
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50rem;
+}
+.badge-gold {
+  background-color: var(--gold-light);
+  color: #8c5b0d;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: 50rem;
+}
+
+/* Navigation Header Styles */
+.navbar {
+  background-color: rgba(250, 246, 240, 0.95);
+  backdrop-filter: blur(10px);
+  border-bottom: 1px solid var(--cream-beige);
+}
+.brand-icon-box {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background-color: var(--lavender);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--plum);
+}
+
+/* Card System */
+.recipe-card {
+  background-color: var(--cream-card);
+  border: 1px solid var(--cream-beige);
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 8px 24px rgba(59, 35, 56, 0.05);
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+  cursor: pointer;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.recipe-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 32px rgba(59, 35, 56, 0.12);
+}
+.card-img-wrapper {
+  position: relative;
+  height: 220px;
+  overflow: hidden;
+  background-color: var(--cream-beige);
+}
+.card-img-wrapper img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.5s ease;
+}
+.recipe-card:hover .card-img-wrapper img {
+  transform: scale(1.05);
+}
+.card-bookmark-btn {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background-color: rgba(250, 246, 240, 0.9);
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--plum);
+  transition: all 0.2s ease;
+  z-index: 2;
+}
+.card-bookmark-btn.active {
+  color: var(--red);
+}
+
+/* Category Filter Chips */
+.chip-btn {
+  background-color: var(--cream-beige);
+  color: var(--plum);
+  border: none;
+  border-radius: 12px;
+  padding: 0.5rem 1.25rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.chip-btn.active,
+.chip-btn:hover {
+  background-color: var(--plum);
+  color: var(--cream);
+}
+
+/* Pantry Finder Box */
+.pantry-box {
+  background-color: rgba(226, 235, 229, 0.6);
+  border: 1px solid rgba(108, 142, 123, 0.3);
+  border-radius: 20px;
+  padding: 1.25rem;
+  margin-bottom: 2rem;
+}
+
+/* Fullscreen Cook Overlay */
+.cook-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1050;
+  background-color: var(--cream);
+  display: none;
+  flex-direction: column;
+  padding: 2rem;
+  overflow-y: auto;
+}
+.cook-overlay.active {
+  display: flex;
+}
+
+/* Toast Notifications */
+.toast-notification {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1080;
+  background-color: var(--plum);
+  color: var(--cream);
+  padding: 0.85rem 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  transform: translateY(100px);
+  opacity: 0;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.toast-notification.show {
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* Form Inputs & Footer */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--sage);
+  box-shadow: 0 0 0 0.25rem rgba(108, 142, 123, 0.25);
+}
+.site-footer {
+  background-color: var(--plum);
+  color: var(--cream-beige);
+  padding: 4rem 0 2rem;
+  margin-top: 4rem;
+}

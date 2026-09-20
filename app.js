@@ -13,7 +13,7 @@ const INITIAL_RECIPES = [
                 author: 'Flora Meadow',
                 date: 'Sep 12, 2026',
                 isUserPost: false,
-                coverImage: '/images/tart.jpg',
+                coverImage: './images/tart.jpg',
                 ingredients: [
                     { quantity: 1.5, unit: 'cups', name: 'All-purpose flour' },
                     { quantity: 0.5, unit: 'cups', name: 'Unsalted butter, chilled & cubed' },
@@ -45,7 +45,7 @@ const INITIAL_RECIPES = [
                 author: 'Chef Lorenzo',
                 date: 'Sep 15, 2026',
                 isUserPost: false,
-                coverImage: '/images/noodle.jpg',
+                coverImage: './images/noodle.jpg',
                 ingredients: [
                     { quantity: 400, unit: 'grams', name: 'Fresh Pappardelle pasta' },
                     { quantity: 100, unit: 'grams', name: 'Unsalted butter' },
@@ -74,7 +74,7 @@ const INITIAL_RECIPES = [
                 author: 'Ayesha Khan',
                 date: 'Sep 17, 2026',
                 isUserPost: false,
-                coverImage: '/images/chai.jpg',
+                coverImage: './images/chai.jpg',
                 ingredients: [
                     { quantity: 2, unit: 'cups', name: 'Filtered water' },
                     { quantity: 2, unit: 'tbsp', name: 'Strong black loose leaf tea' },
